@@ -18,16 +18,10 @@ import { TasksService } from './tasks.service';
 export class TasksController {
   constructor(private taskService: TasksService) {}
 
-  // @Get()
-  // getTasks(@Query() filterDto: GetTasksFilterDto): Task[] {
-  //   // if we have any filter defined, call taskService.getTasksWithFilters
-  //   // otherwise, just get all tasks
-  //   if (Object.keys(filterDto).length) {
-  //     return this.taskService.getTasksWithFilters(filterDto);
-  //   } else {
-  //     return this.taskService.getAllTasks();
-  //   }
-  // }
+  @Get()
+  getTasks(@Query() filterDto: GetTasksFilterDto): Promise<Task[]> {
+    return this.taskService.getTasks(filterDto);
+  }
 
   @Get('/:id')
   getTaskById(@Param('id') id: string): Promise<Task> {
@@ -39,17 +33,17 @@ export class TasksController {
     return this.taskService.createTask(createTaskDto);
   }
 
-  // @Patch('/:id/status')
-  // updateTaskStatus(
-  //   @Param('id') id: string,
-  //   @Body() updateTaskStatusDto: UpdateTaskStatusDto,
-  // ): Task {
-  //   const { status } = updateTaskStatusDto;
-  //   return this.taskService.updateTaskStatus(id, status);
-  // }
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    const { status } = updateTaskStatusDto;
+    return this.taskService.updateTaskStatus(id, status);
+  }
 
-  // @Delete('/:id')
-  // deleteTaskById(@Param('id') id: string): void {
-  //   return this.taskService.deleteTaskById(id);
-  // }
+  @Delete('/:id')
+  deleteTaskById(@Param('id') id: string): Promise<void> {
+    return this.taskService.deleteTaskById(id);
+  }
 }
